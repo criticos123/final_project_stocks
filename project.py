@@ -270,8 +270,7 @@ def display_graph(value):
 
 
 if __name__ == '__main__':
-    server_port = os.environ.get('PORT') or 9000
-    app.run_server(port=server_port)
+    app.run_server()
 
 
 
