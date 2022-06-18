@@ -21,6 +21,7 @@ import datetime
 import time
 import requests
 import io
+import os
 
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.arima.model import ARIMA
@@ -268,8 +269,8 @@ def display_graph(value):
     return [fig,fig2,table1,table2,fig3,table3,table4]
 
 
-
-app.run_server(port=9011)
+server_port = os.environ.get('PORT') or 9000
+app.run_server(port=server_port)
 
 
 
