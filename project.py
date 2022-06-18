@@ -9,7 +9,6 @@
 # -dashboard displaying stock information
 # 
 
-# In[522]:
 
 
 #importing packages
@@ -41,7 +40,6 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
 
-# In[519]:
 
 
 #function to create our arima model
@@ -55,7 +53,6 @@ def arima_model(df_train,label,pred_star,pred_end,order,stock_model_name):
     return forecast
 
 
-# In[513]:
 
 
 #testing stationary trends. 
@@ -65,9 +62,6 @@ def test_stationarity(timeseries):
     for key,value in dftest[4].items():
         dfoutput['Critical Value (%s)'%key] = value
     return dfoutput
-
-
-# In[487]:
 
 
 #lets use differencing method to test.
@@ -82,7 +76,6 @@ def trend_removal(df):
     return ts_diff_exp
 
 
-# In[530]:
 
 
 #start and end times for our stock dataframe
@@ -90,7 +83,6 @@ start = datetime.datetime(2022,2,1)
 end = datetime.datetime(2022,4,18)
 
 
-# In[531]:
 
 
 #instructions to convert stock market data into dataframe https://towardsdatascience.com/downloading-historical-stock-prices-in-python-93f85f059c1f
@@ -99,19 +91,13 @@ s = requests.get(url).content
 companies = pd.read_csv(io.StringIO(s.decode('utf-8')))
 
 
-# In[532]:
 
 
-companies.head()
-
-
-# In[533]:
 
 
 Symbols = companies['Symbol'].tolist()
 
 
-# In[535]:
 
 
 # create empty dataframe
@@ -134,15 +120,11 @@ for i in Symbols:
         None
 
 
-# In[537]:
-
 
 #get rid of volume and adj close dont need them
 stock_final2=stock_final[['Open','High','Low','Close','Name']]
 stock_final2.tail()
 
-
-# In[538]:
 
 
 #makingchecklist options for general stock data
@@ -150,14 +132,10 @@ checklist_options=stock_final2.columns[0:4]
 print(checklist_options)
 
 
-# In[539]:
-
 
 #getting unique stock names for the dropdownbar
 stock_names=stock_final['Name'].unique()
 
-
-# In[565]:
 
 
 app = Dash(__name__)
@@ -292,8 +270,6 @@ def display_graph(value):
 
 app.run_server(port=9011)
 
-
-# In[547]:
 
 
 # loading model example

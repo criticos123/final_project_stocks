@@ -80,7 +80,7 @@ fastcache @ file:///opt/concourse/worker/volumes/live/8356601f-d9bc-4d13-4017-1a
 filelock @ file:///tmp/build/80754af9/filelock_1635402558181/work
 findspark==2.0.1
 flake8 @ file:///tmp/build/80754af9/flake8_1620776156532/work
-Flask @ file:///home/ktietz/src/ci/flask_1611932660458/work
+Flask==2.1.1
 Flask-Compress==1.11
 flatbuffers==2.0
 fonttools==4.25.0
@@ -115,7 +115,7 @@ isort @ file:///tmp/build/80754af9/isort_1628603791788/work
 itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
 jdcal @ file:///Users/ktietz/demo/mc3/conda-bld/jdcal_1630584345063/work
 jedi @ file:///opt/concourse/worker/volumes/live/4b03e428-2d0c-4635-502c-16df884971e8/volume/jedi_1611333763457/work
-Jinja2 @ file:///tmp/build/80754af9/jinja2_1612213139570/work
+Jinja2==3.1.1
 jinja2-time @ file:///tmp/build/80754af9/jinja2-time_1617751524098/work
 joblib @ file:///tmp/build/80754af9/joblib_1635411271373/work
 json5 @ file:///tmp/build/80754af9/json5_1624432770122/work
@@ -140,7 +140,7 @@ llvmlite==0.37.0
 locket==0.2.1
 lxml @ file:///opt/concourse/worker/volumes/live/e9a191ad-c8f1-4bb7-7955-c333b8ab6c55/volume/lxml_1616443232489/work
 Markdown==3.3.6
-MarkupSafe @ file:///opt/concourse/worker/volumes/live/fac44ebc-60de-4182-7f89-29bb8796c554/volume/markupsafe_1607027351541/work
+MarkupSafe==2.1.1
 matplotlib==3.5.1
 matplotlib-inline @ file:///tmp/build/80754af9/matplotlib-inline_1628242447089/work
 mccabe==0.6.1
@@ -156,6 +156,7 @@ multipledispatch @ file:///opt/concourse/worker/volumes/live/ae29ad0f-3a64-4ff5-
 multitasking==0.0.10
 munkres==1.1.4
 mypy-extensions==0.4.3
+Nasdaq-Data-Link==1.0.1
 navigator-updater==0.2.1
 nbclassic @ file:///tmp/build/80754af9/nbclassic_1616085367084/work
 nbclient @ file:///tmp/build/80754af9/nbclient_1614364831625/work
