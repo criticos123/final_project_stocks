@@ -269,13 +269,9 @@ def display_graph(value):
     return [fig,fig2,table1,table2,fig3,table3,table4]
 
 
-server_port = os.environ.get('PORT') or 9000
-app.run_server(port=server_port)
+if __name__ == '__main__':
+    server_port = os.environ.get('PORT') or 9000
+    app.run_server(port=server_port)
 
 
-
-# loading model example
-loaded = ARIMAResults.load('AMZN.pkl')
-forecast = loaded.get_forecast('2022-4-21').summary_frame()
-print(forecast)
 
