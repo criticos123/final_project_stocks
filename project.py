@@ -96,14 +96,15 @@ companies = pd.read_csv(io.StringIO(s.decode('utf-8')))
 
 
 Symbols = companies['Symbol'].tolist()
-
+test_symbols=Symbols[0:3]
+print(test_symbols)
 
 
 
 # create empty dataframe
 stock_final = pd.DataFrame()
 # iterate over each symbol
-for i in Symbols:  
+for i in test_symbols:  
     
     try:
         # download the stock price 
