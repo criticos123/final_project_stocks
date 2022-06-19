@@ -15,13 +15,8 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import sqlite3
 
-import yfinance as yf
-import datetime
-import time
-import requests
-import io
-import os
 
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.arima.model import ARIMA
@@ -47,8 +42,6 @@ import plotly.graph_objects as go
 def arima_model(df_train,label,pred_star,pred_end,order,stock_model_name):
     model = ARIMA(df_train, order=order)
     res = model.fit()
-    # save model
-    res.save(stock_model_name+'.pkl')
     forecast = res.get_forecast(pred_end).summary_frame()
     #return the data frame with all our forecasted values
     return forecast
@@ -76,73 +69,20 @@ def trend_removal(df):
     ts_diff_exp.dropna(inplace = True)
     return ts_diff_exp
 
-
-
-
-#start and end times for our stock dataframe
-start = datetime.datetime(2022,2,1)
-end = datetime.datetime(2022,4,18)
-
-
-
-
-#instructions to convert stock market data into dataframe https://towardsdatascience.com/downloading-historical-stock-prices-in-python-93f85f059c1f
-url="https://pkgstore.datahub.io/core/nasdaq-listings/nasdaq-listed_csv/data/7665719fb51081ba0bd834fde71ce822/nasdaq-listed_csv.csv"
-s = requests.get(url).content
-companies = pd.read_csv(io.StringIO(s.decode('utf-8')))
-
-
-
-
-
-
-Symbols = companies['Symbol'].tolist()
-test_symbols=Symbols[0:3]
-print(test_symbols)
-
-
-
-# create empty dataframe
-stock_final = pd.DataFrame()
-# iterate over each symbol
-for i in test_symbols:  
-    
-    try:
-        # download the stock price 
-        stock = []
-        stock = yf.download(i,start=start, end=end, progress=False)
-        
-        # append the individual stock prices 
-        if len(stock) == 0:
-            None
-        else:
-            stock['Name']=i
-            stock_final = stock_final.append(stock,sort=False)
-    except Exception:
-        None
-
-
-
-#get rid of volume and adj close dont need them
-stock_final2=stock_final[['Open','High','Low','Close','Name']]
-stock_final2.tail()
-
-
+#getting the stock database
+conn = sqlite3.connect('./database/stock_database.sqlite')
+df_stocks=pd.read_sql_query("SELECT * FROM stocks",conn)
+df_stocks['Date'] = pd.to_datetime(df_stocks['Date'])
+df_stocks2=df_stocks.set_index("Date")
 
 #makingchecklist options for general stock data
-checklist_options=stock_final2.columns[0:4]
-print(checklist_options)
-
-
+checklist_options=df_stocks.columns[0:4]
 
 #getting unique stock names for the dropdownbar
-stock_names=stock_final['Name'].unique()
-
-
+stock_names=df_stocks['Name'].unique()
 
 app = Dash(__name__)
 server = app.server
-
 
 app.layout = html.Div([
     html.H4('Stock price market Dashboard'),
@@ -182,7 +122,7 @@ app.layout = html.Div([
 )
 
 def display_graph(value):
-    df=stock_final2
+    df=df_stocks2
     df=df[df['Name']==value]
     #plotting the general stock information
     fig= go.Figure(px.line(df,x=df.index,y='Close',title='Stock Prices'))
@@ -233,8 +173,8 @@ def display_graph(value):
     tr_df=trend_removal(df2)
 
     #visualizing the partial and auto correlations
-    plot_acf(tr_df, lags=20,title=value +' auto correlation')
-    plot_pacf(tr_df, lags=20,title=value + ' partial correlation')
+    # plot_acf(tr_df, lags=20,title=value +' auto correlation')
+    # plot_pacf(tr_df, lags=20,title=value + ' partial correlation')
 
     #plotting the series with trend removal
     #differencing,and exponential smoothing: 
@@ -268,7 +208,6 @@ def display_graph(value):
     ])
 
     return [fig,fig2,table1,table2,fig3,table3,table4]
-
 
 if __name__ == '__main__':
     app.run_server()
